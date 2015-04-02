@@ -3,7 +3,7 @@ import os
 
 import numpy as np
 
-sys.path.append(os.path.join(os.getcwd(), "..", "lib"))
+sys.path.append(os.path.join(os.getcwd(), "lib"))
 
 import icz
 
@@ -44,7 +44,7 @@ class ICZ:
     def feed(self, *args):
 
         if len(args) != self.n_axis:
-            raise RunTimeException("Invalid number of feedings.")
+            raise RuntimeException("Invalid number of feedings.")
 
         for i, arg in enumerate(args):
             self.axes[i].append(np.asarray(arg))
