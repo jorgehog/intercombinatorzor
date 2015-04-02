@@ -1,3 +1,7 @@
 *.pro.user
 *.pyc
 *~
+Makefile
+lib/
+*.o
+tests/tests

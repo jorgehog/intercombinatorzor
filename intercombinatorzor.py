@@ -43,10 +43,16 @@ class ICZ:
             self.key_map[name] = index
             self.axes.append(ICZAxis())
 
+    def __len__(self):
+        if not self.axes:
+            return 0
+
+        return len(self.axes[0].data)
+
     def feed(self, *args):
 
         if len(args) != self.n_axis:
-            raise RuntimeException("Invalid number of feedings.")
+            raise RuntimeError("Invalid number of feedings.")
 
         for i, arg in enumerate(args):
             self.axes[i].append(np.asarray(arg))
