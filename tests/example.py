@@ -1,31 +1,35 @@
-from numpy import *
-from sys import argv, exit
+import numpy as np
+from matplotlib import pylab as pl
+import sys
+import math
 
-import pyblockzor
+sys.path.append("..")
 
-if len(argv) < 4:
-    print "Error: Invalid use. Supply minbs maxbs nbs as cmlargs"
+from intercombinatorzor import ICZ
 
-minbs, maxbs, nbs = [int(x) for x in argv[1:]] 
+nx = 1500
+x_max = 2*math.pi
 
-N = 1000000
+n_axes = 1000
 
-if not pyblockzor.consistencyCheck(minbs, maxbs, nbs, N, False):
-    exit()
+icz = ICZ("x", "y")
 
-a = zeros(N)
+pl.figure()
+for n in range(n_axes):
+    x = sorted(np.random.uniform(0, x_max, size=nx))
+    y = np.sin(x) + 0.1*(2*np.random.uniform(size=nx) - 1)
 
-delta = 1.0
+    icz.feed(x, y)
+    pl.plot(x, y)
 
-for i in range(1, N):
-    a[i] = a[i-1] + delta*(1 - 2*random.random())/i
+X, Y = icz.intercombine("x", "y")
 
-blocks, sigmas = pyblockzor.block(a, minbs, maxbs, nbs)
+pl.plot(X, np.sin(X), "-k", linewidth=3)
 
-print "blocks", blocks
-print "sigmas", sigmas
+pl.figure()
+pl.plot(X, Y, "-b")
+pl.plot(X, np.sin(X), "-r")
+pl.show()
 
-from matplotlib.pylab import *
 
-plot(blocks, sigmas)
-show()
+

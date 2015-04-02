@@ -1,14 +1,15 @@
+import sys
+import os
+
+import numpy as np
+
+sys.path.append(os.path.join(os.getcwd(), "..", "lib"))
+
+import icz
+
 class ICZAxis:
     def __init__(self):
         self.data = []
-
-    def compact(self):
-        min_value = min(self.data, key=lambda x: x[0])[0]
-        max_value = max(self.data, key=lambda x: x[-1])[-1]
-
-        length = len(self.data[0])
-
-        return np.linspace(min_value, max_value, length)
 
     def append(self, array):
 
@@ -17,6 +18,12 @@ class ICZAxis:
                 raise NotImplemented("Uneven array lengths is not implemented.")
 
         self.data.append(array)
+
+    def __len__(self):
+        if not self.data:
+            return 0
+
+        return len(self.data[0])
 
 class ICZ:
 
@@ -30,10 +37,21 @@ class ICZ:
             self.key_map[name] = index
             self.axes.append(ICZAxis())
 
+    def feed(self, *args):
+
+        if len(args) != self.n_axis:
+            raise RunTimeException("Invalid number of feedings.")
+
+        for i, arg in enumerate(args):
+            self.axes[i].append(np.asarray(arg))
+
     def __getitem__(self, name):
         return self.axes[self.key_map[name]]
 
-    def intercombine(self, x_axis, y_axis, compact_x = True, roughen = False):
-        return combine_results(self.axes[self.key_map[x_axis]].data,
-                               self.axes[self.key_map[y_axis]].data)
+    def intercombine(self, x_label, y_label, compact_x = True, roughen = False):
+
+        return icz.combine(np.asarray(self.axes[self.key_map[x_label]].data),
+                           np.asarray(self.axes[self.key_map[y_label]].data))
+
+
 
