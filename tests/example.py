@@ -20,7 +20,7 @@ for n in range(n_axes):
     y = np.sin(x) + 0.1*(2*np.random.uniform(size=nx) - 1)
 
     icz.feed(x, y)
-    pl.plot(x, y)
+    pl.plot(x[::10], y[::10])
 
 X, Y = icz.intercombine("x", "y")
 

@@ -25,6 +25,10 @@ class ICZAxis:
 
         return len(self.data[0])
 
+    def sort(self):
+        for i in range(len(self.data)):
+            self.data[i] = sorted(self.data[i])
+
 class ICZ:
 
     def __init__(self, *args):
@@ -48,7 +52,10 @@ class ICZ:
     def __getitem__(self, name):
         return self.axes[self.key_map[name]]
 
-    def intercombine(self, x_label, y_label, compact_x = True, roughen = False):
+    def intercombine(self, x_label, y_label, assume_sorted=True):
+
+        if not assume_sorted:
+            self.axes[self.key_map[x_label]].sort()
 
         return icz.combine(np.asarray(self.axes[self.key_map[x_label]].data),
                            np.asarray(self.axes[self.key_map[y_label]].data))
