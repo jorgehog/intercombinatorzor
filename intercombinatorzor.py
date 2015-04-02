@@ -1,9 +1,11 @@
 import sys
 import os
+import inspect
 
 import numpy as np
 
-sys.path.append(os.path.join(os.getcwd(), "lib"))
+this_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+sys.path.append(os.path.join(this_dir, "lib"))
 
 import icz
 
