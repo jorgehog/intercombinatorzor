@@ -11,7 +11,7 @@ import icz
 
 class ICZAxis:
     def __init__(self):
-        self.data = []
+        self.clear()
 
     def append(self, array):
 
@@ -30,6 +30,9 @@ class ICZAxis:
     def sort(self):
         for i in range(len(self.data)):
             self.data[i] = sorted(self.data[i])
+
+    def clear(self):
+        self.data = []
 
 class ICZ:
 
@@ -59,6 +62,10 @@ class ICZ:
 
     def __getitem__(self, name):
         return self.axes[self.key_map[name]]
+
+    def clear(self):
+        for axis in self.axes:
+            axis.clear()
 
     def intercombine(self, x_label, y_label, assume_sorted=True):
 
