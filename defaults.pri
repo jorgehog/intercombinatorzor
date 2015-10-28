@@ -2,6 +2,7 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 CONFIG += ordered
+#CONFIG += NO_OMP
 
 LIBS += -larmadillo
 
@@ -13,6 +14,10 @@ INCLUDEPATH += $$PWD/utils
 
 COMMON_CXXFLAGS = -std=c++11 -fopenmp
 
+NO_OMP {
+    COMMON_CXXFLAGS -= -fopenmp
+    DEFINES += NO_OMP
+}
 
 QMAKE_CXXFLAGS += \
     $$COMMON_CXXFLAGS
