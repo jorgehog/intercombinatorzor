@@ -17,7 +17,7 @@ class ICZAxis:
 
         if self.data:
             if len(self.data[-1]) != len(array):
-                raise NotImplemented("Uneven array lengths is not implemented.")
+                raise NotImplementedError("Uneven array lengths is not implemented.")
 
         self.data.append(array)
 
@@ -66,6 +66,12 @@ class ICZ:
     def clear(self):
         for axis in self.axes:
             axis.clear()
+
+    def mean(self, x_label, y_label):
+        X = np.asarray(self.axes[self.key_map[x_label]].data)
+        Y = np.asarray(self.axes[self.key_map[y_label]].data)
+
+        return X.mean(axis=0), Y.mean(axis=0)
 
     def intercombine(self, x_label, y_label, assume_sorted=True):
 
