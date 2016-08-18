@@ -73,13 +73,13 @@ class ICZ:
 
         return X.mean(axis=0), Y.mean(axis=0)
 
-    def intercombine(self, x_label, y_label, assume_sorted=True):
+    def intercombine(self, x_label, y_label, downsample=1, assume_sorted=True):
 
         if not assume_sorted:
             self.axes[self.key_map[x_label]].sort()
 
-        return icz.combine(np.asarray(self.axes[self.key_map[x_label]].data),
-                           np.asarray(self.axes[self.key_map[y_label]].data))
+        return icz.combine(np.asarray(self.axes[self.key_map[x_label]].data)[::downsample],
+                           np.asarray(self.axes[self.key_map[y_label]].data)[::downsample])
 
 
 
